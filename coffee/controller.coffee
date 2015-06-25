@@ -85,19 +85,19 @@ controller.controller 'indexCtrl', [
     $scope.searchFile = ''
     $scope.sizeFormat = utils.sizeFormat
     $scope.selectItem = []
+    #todo функция отправки друзьям (надо переносить)
     $rootScope.$on 'sendFriend', (e, friend)->
       fileList = ''
       for i in [0...$scope.selectItem.length]
         fileList += 'doc' + $scope.selectItem[i].owner_id.toString() + '_' + $scope.selectItem[i].id.toString() + ','
       fileList = fileList.substr 0, fileList.length - 1
-
       VkApi.api 'messages.send',
         user_id: friend,
         attachment: fileList
       , (data)->
         if not data.error
           logs.success 'Внимание', 'Сообщение отправленно успешно', 'error'
-
+    #todo работа с выделением файла
     $scope.addAction = (file)->
       if $scope.selectItem.indexOf(file) != -1
         $scope.selectItem.splice $scope.selectItem.indexOf(file), 1
@@ -108,7 +108,7 @@ controller.controller 'indexCtrl', [
       else
         $scope.selectItem.push file
         $rootScope.$broadcast 'selected', true
-    #todo
+    #todo добавляем обьект файла в список файлов
     $rootScope.$on 'addFile:data', (event, data)->
       $scope.items.push data
     #todo выделение файлов (надо перенести в сервисы)
