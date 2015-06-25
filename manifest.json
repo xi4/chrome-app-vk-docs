@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "vk docs",
+  "short_name": "vk docs",
+  "description": "Приложение для работы с документами ВКонтакте",
+  "version": "0.1.1",
+  "icons": {
+    "16": "assets/icon_16.png",
+    "128": "assets/icon_128.png"
+  },
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "notifications",
+    "storage",
+    {"fileSystem": ["write", "retainEntries", "directory"]},
+    "webview",
+    "\u003Call_urls>",
+    "unlimitedStorage",
+    "*://*/*"
+  ]
+}

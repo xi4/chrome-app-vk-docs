@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html ng-app='apps' ng-csp>
+<head>
+    <title>vk docs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/css.css"/>
+    <link rel="stylesheet" href="css/nav.css"/>
+    <link rel="stylesheet" href="lib/angucomplete/angucomplete.css"/>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/dnd.js"></script>
+    <script src="lib/util.js"></script>
+    <script src="lib/ui-bootstrap/ui-bootstrap.js"></script>
+    <script src="lib/angucomplete/angucomplete.js"></script>
+    <script src="coffee/apps.js"></script>
+    <script src="coffee/controller.js"></script>
+    <script src="coffee/service.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-fixed-left navbar-minimal animate" ng-controller="navCtrl" ng-class="{open:toggle}"
+      role="navigation">
+    <div class="navbar-toggler animate" ng-click="tog()">
+        <span class="menu-icon"></span>
+    </div>
+    <ul class="navbar-menu animate">
+        <li>
+            <a href="" class="animate" ng-click="refresh()" title="Обновить">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="animate" ng-click="addFile()" title="Загрузить">
+                <span class="glyphicon glyphicon-cloud-upload"></span>
+            </a>
+        </li>
+        <li ng-class="{hidden:!selected}">
+            <a href="" class="animate" ng-click="sendFriend()" title="Отправить другу">
+                <span class="glyphicon glyphicon-send"></span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="animate" ng-click="selectAllFile()" title="Выделить все">
+                <span class="glyphicon glyphicon-check"></span>
+            </a>
+        </li>
+        <li ng-class="{hidden:!selected}">
+            <a href="" class="animate" ng-click="deleteSelected()" title="Удалить выделеное">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="animate" ng-click="settings()" title="Настройки">
+                <span class="glyphicon glyphicon-cog"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div class='container-fluid'>
+    <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 col-md-11 col-md-offset-1" ng-controller="indexCtrl">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </div>
+                        <input type="text" placeholder="Введите текс для поиска" class="form-control"
+                               ng-model="searchFile"/>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        <a href="" ng-click="sortType = 'title'; sortReverse = !sortReverse">
+                            Имя файла
+                        </a>
+                    </th>
+                    <th>
+                        <a href="" ng-click="sortType = 'ext'; sortReverse = !sortReverse">
+                            Тип
+                        </a>
+                    </th>
+                    <th>
+                        <a href="" ng-click="sortType = 'size'; sortReverse = !sortReverse">
+                            Размер
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in items | orderBy:sortType:sortReverse | filter:searchFile"
+                    ng-click="addAction(item)" ng-class="{active: selectItem.indexOf(item)!=-1}"
+                    data-doc_id="{{item.id}}">
+                    <td>
+                        <a ng-click="download(item)">{{item.title}}</a>
+                    </td>
+                    <td>{{item.ext}}</td>
+                    <td>{{sizeFormat(item.size)}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<input type="file" class="file hidden" multiple ng-controller="fileCtrl"/>
+<webview id='auth_win' class="hidden" style="width: 100%;height: 600px;"></webview>
+</body>
+</html>
