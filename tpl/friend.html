@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="glyphicon glyphicon-send"></i>Отправка документов</h3>
+    </div>
+    <div class="modal-body">
+        <h4>Отправлены будут выделенные файлы</h4>
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                    <input type="text" class="form-control" ng-model="searchFriend" placeholder="Введите имя друга"/>
+                </div>
+            </div>
+        </form>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="friend in friends | filter:searchFriend" ng-click="sel(friend)" ng-class="{active:selected==friend.id}">
+                <span ng-class="{hidden:friend.online==0}" class="badge">online</span>
+                {{friend.first_name+' '+friend.last_name}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="send()">Отправить</button>
+        <button class="btn btn-warning" ng-click="close()">Отмена</button>
+    </div>
+</div>
