@@ -1,0 +1,26 @@
+th>a{
+    color: #000;
+    text-decoration: none;
+}
+th>a:hover{
+    color: #000000;
+    text-decoration: none;
+}
+.sidebar{
+    position: fixed;
+    z-index: 1000;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+html{
+    overflow-y: scroll;
+}
+
+body{
+    margin-top: 10px;
+}
+.list-group{
+    height: 165px;
+    overflow-y: auto;
+}
