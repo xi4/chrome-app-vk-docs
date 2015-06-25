@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title"><i class="glyphicon glyphicon-cog"></i>Настройки</h3>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="selectDir">Куда будут сохранятся файлы</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="{{selDir}}" placeholder="папка не выбрана" id="selectDir" readonly/>
+                    <div class="input-group-addon" ng-click="selectDir()">Выбрать</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="save()">Сохранить</button>
+        <button class="btn btn-warning" ng-click="close()">Отмена</button>
+    </div>
+</div>
