@@ -37,28 +37,11 @@ angular.module 'VkApi'
             $rootScope.$broadcast('docsList:load')
             return
           else
-            self.errorParse data
+            utils.errorParse data
             return
         return
       getAllDocs:->
         docsList
-      errorParse:(response)->
-        self.auth() if response.error.error_code == 5
-        return
-      getUrl:->
-        url = aut_url
-        url = url.replace('{client_id}', client_id)
-        url = url.replace('{scope}', scope)
-        url = url.replace('{redirect_uri}', callback_blank)
-        url = url.replace('{version}', version)
-        return url
-      GVP:(url,parameterName)->
-        urlParameters = url.substr(url.indexOf('#')+1)
-        urlParameters = urlParameters.split "&"
-        for i in [0...urlParameters.length]
-          temp = urlParameters[i].split "="
-          parameterValue = temp[1] if temp[0] == parameterName
-        return parameterValue
       auth:->
         webview = angular.element(document.querySelector('#auth_win'))[0]
         container = angular.element(document.querySelector('.container-fluid'))[0]
@@ -68,7 +51,7 @@ angular.module 'VkApi'
         loadstop = ->
           url = webview.getAttribute('src')
           if url.indexOf('oauth.vk.com/blank.html#access_token=') > -1
-            access_token = self.GVP(url,'access_token')
+            access_token = utils.GVP(url,'access_token')
             chrome.storage.local.set({'access_token':access_token},->
               webview.classList.add('hidden')
               container.classList.remove('hidden')
@@ -79,18 +62,11 @@ angular.module 'VkApi'
         webview.addEventListener('loadstop',loadstop)
         webview.reload()
         return
-      objToStr:(obj)->
-        str=''
-        angular.forEach(obj,(value,key)->
-          str+=key+'='+value+'&'
-          return
-        )
-        return str
       api:(method,data,callback)->
         chrome.storage.local.get 'access_token',(item)->
           if item.access_token != '' || item.access_token != undefined
             $timeout ->
-              $http.get(method_url + method + '?' + self.objToStr(data) + 'access_token='+ item.access_token + '&v='+version)
+              $http.get(method_url + method + '?' + utils.objToStr(data) + 'access_token='+ item.access_token + '&v='+version)
               .success(callback)
               .error ->
                 logs.message 'Ошибка','Сервер ВКонтакте не отвечает','error'
@@ -117,7 +93,7 @@ angular.module 'VkApi'
                   $rootScope.$broadcast 'addFile:data',data.response[0]
                   return
                 else
-                  self.errorParse data
+                  utils.errorParse data
                   $rootScope.$broadcast 'sendFile:true'
                   logs.message 'Ошибка', 'Файл является недопустимым для загрузки','error'
                   return
