@@ -1,2 +1,8 @@
 ## Инициальзация приложения
-app = angular.module 'apps',['apps.controller','apps.service','ui.bootstrap']
+angular.module 'apps',[
+  'apps.controller'
+  'VkApi'
+  'logs'
+  'utils'
+  'ui.bootstrap'
+  ]
