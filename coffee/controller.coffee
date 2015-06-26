@@ -8,15 +8,17 @@ controller.controller 'friendCtrl', [
   'logs'
   ($scope, $modalInstance, VkApi, $rootScope, logs)->
     $scope.friends = VkApi.getAllFriend()
-
+    #Todo функция выбора друзей
     $scope.sel = (friend)->
       $scope.selected = friend.id
+    #Todo отправка документов друзьям
     $scope.send = ->
       if $scope.selected > 0
         $rootScope.$broadcast 'sendFriend', $scope.selected
         $modalInstance.close()
       else
         logs.message 'Ошибка', 'Друг не выбран', 'error'
+    #Todo закрытие окна
     $scope.close = ->
       $modalInstance.close()
 ]
@@ -33,6 +35,7 @@ controller.controller 'setCtrl', [
               chrome.fileSystem.getDisplayPath dir, (path)->
                 $scope.selDir = path
                 $scope.$digest()
+    #Todo выбор папки для сохранения файлов
     $scope.selectDir = ->
       chrome.fileSystem.chooseEntry
         type: 'openDirectory'
@@ -43,17 +46,21 @@ controller.controller 'setCtrl', [
         chrome.fileSystem.getDisplayPath dir, (path)->
           $scope.selDir = path
           $scope.$digest()
+    #Todo сохраняет настройки
     $scope.save = ->
       chrome.storage.local.set
         selDir: $scope.tempDir
       $modalInstance.close()
       logs.message 'Внимание', 'Настройки были успешно сохранены', 'success'
+    #Todo закрывает окно
     $scope.close = ->
       $modalInstance.close()
 ]
 #TODO отвечает за загрузку файлов в документы ВКонтакте
 controller.controller 'fileCtrl', ($scope, $rootScope, VkApi)->
+  #Todo находит инпут
   $scope.input = angular.element document.querySelector('.file')[0]
+  #Todo открывает инпут по нажатию на кнопку
   $scope.openFileDialog = ->
     $scope.input.click()
   $rootScope.$on 'addFile', ->
@@ -61,13 +68,14 @@ controller.controller 'fileCtrl', ($scope, $rootScope, VkApi)->
   $scope.input.onchange = (event)->
     $scope.files = Util.toArray event.target.files
     VkApi.sendFile $scope.files[0]
-
+  #Todo делает область body D&D
   new DnDFileController 'body', (files)->
     $scope.files = Util.toArray files
     VkApi.sendFile $scope.files[0]
-
+  #Todo файл не отправился и отправляется повторно
   $rootScope.$on 'sendFile:false', (event, data) ->
     VkApi.sendFile data
+  #Todo файл отправлен и отправляется следуйщий
   $rootScope.$on 'sendFile:true', ->
     $scope.files.splice 0, 1;
     VkApi.sendFile $scope.files[0] if $scope.files.length > 0
