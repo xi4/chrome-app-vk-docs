@@ -10,12 +10,12 @@
     <script src="lib/angular/angular.js"></script>
     <script src="lib/dnd.js"></script>
     <script src="lib/util.js"></script>
-    <script src="lib/ui-bootstrap/ui-bootstrap.js"></script>
-    <script src="coffee/apps.js"></script>
-    <script src="coffee/controller.js"></script>
     <script src="coffee/VkApi.js"></script>
     <script src="coffee/logs.js" charset="utf-8"></script>
     <script src="coffee/utils.js" charset="utf-8"></script>
+    <script src="lib/ui-bootstrap/ui-bootstrap.js"></script>
+    <script src="coffee/apps.js"></script>
+    <script src="coffee/controller.js"></script>
 </head>
 
 <body>
@@ -39,6 +39,11 @@
             <a href="" class="animate" ng-click="sendFriend()" title="Отправить другу">
                 <span class="glyphicon glyphicon-send"></span>
             </a>
+        </li>
+        <li ng-class="{hidden:!selected}">
+          <a href="" class="animate" ng-click="downloadFi" title="Скачать выбраный файлы">
+            <span class="glyphicon glyphicon-save"></span>
+          </a>
         </li>
         <li>
             <a href="" class="animate" ng-click="selectAllFile()" title="Выделить все">
